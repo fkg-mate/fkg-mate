@@ -3,70 +3,79 @@
 var _PORTRAIT_PATH = './images/portrait/';
 
 function createCharaRow(portrait_path, name, hp, att, def, speed, skill, abilities) {
-    if (typeof createCharaRow.template == 'undefined') {
-        var ele_tr = document.createElement('tr');
-        var ele_td = document.createElement('td');
+    function formPlate() {
+        var ele_plate = document.createElement('div');
+        var ele_col = document.createElement('div');
         var ele_img = document.createElement('img');
+
+        // portrait
+        ele_col = document.createElement('div');
+        ele_img.src = '#';
+        ele_img.className = 'icon';
+        ele_col.appendChild(ele_img);
+        
+        ele_col.className = 'portrait';
+        ele_plate.appendChild(ele_col);
+        
+        // other state
+        ele_col = document.createElement('div');
+        ele_col.className = 'state hp';
+        ele_plate.appendChild(ele_col);
+        
+        ele_col = document.createElement('div');
+        ele_col.className = 'state atk';
+        ele_plate.appendChild(ele_col);
+        
+        ele_col = document.createElement('div');
+        ele_col.className = 'state def';
+        ele_plate.appendChild(ele_col);
+        
+        ele_col = document.createElement('div');
+        ele_col.className = 'state spd';
+        ele_plate.appendChild(ele_col);
+        
+        // skill
+        ele_col = document.createElement('div');
+        ele_col.className = 'skill';
+        
+        ele_div = document.createElement('div');
+        ele_div.className = 'skill-name';
+        ele_col.appendChild(ele_div);
+        
+        ele_div = document.createElement('div');
+        ele_div.className = 'skill-rate';
+        ele_col.appendChild(ele_div);
+        
+        ele_div = document.createElement('div');
+        ele_div.className = 'skill-text';
+        ele_col.appendChild(ele_div);
+ 
+        // composite plate
+        ele_plate.className = 'plate';
+        ele_plate.appendChild(ele_col);
+
+        return ele_plate;
+    }
+    if (typeof createCharaRow.template == 'undefined') {
+        var ele_row = document.createElement('div');
+        var ele_col = document.createElement('div');
         var ele_div = document.createElement('div');
         
         
         // name
-        ele_div.className = 'name';
-        ele_td.appendChild(ele_div)
+        ele_col.className = 'name';
+        ele_row.appendChild(ele_col);
         
-        ele_td.className = 'name';
-        ele_tr.appendChild(ele_td)
-
-        // portrait
-        ele_td = document.createElement('td');
-        ele_img.src = '#';
-        ele_img.className = 'icon';
-        ele_td.appendChild(ele_img);
-        
-        ele_td.className = 'portrait';
-        ele_tr.appendChild(ele_td)
-        
-        // other stats
-        ele_td = document.createElement('td');
-        ele_td.className = 'stats hp';
-        ele_tr.appendChild(ele_td)
-        
-        ele_td = document.createElement('td');
-        ele_td.className = 'stats atk';
-        ele_tr.appendChild(ele_td)
-        
-        ele_td = document.createElement('td');
-        ele_td.className = 'stats def';
-        ele_tr.appendChild(ele_td)
-        
-        ele_td = document.createElement('td');
-        ele_td.className = 'stats spd';
-        ele_tr.appendChild(ele_td)
-        
-        // skill
-        ele_td = document.createElement('td');
-        ele_td.className = 'stats skill';
-        
-        ele_div = document.createElement('div');
-        ele_div.className = 'skill-name';
-        ele_td.appendChild(ele_div)
-        
-        ele_div = document.createElement('div');
-        ele_div.className = 'skill-rate';
-        ele_td.appendChild(ele_div)
-        
-        ele_div = document.createElement('div');
-        ele_div.className = 'skill-text';
-        ele_td.appendChild(ele_div)
-        
-        ele_tr.appendChild(ele_td)
+        // plate
+        ele_plate = formPlate();
+        ele_row.appendChild(ele_plate);
         
         // ability
-        ele_td = document.createElement('td');
-        ele_td.className = 'ability';
-        ele_tr.appendChild(ele_td)
+        ele_col = document.createElement('div');
+        ele_col.className = 'abilities';
+        ele_row.appendChild(ele_col)
         
-        createCharaRow.template = ele_tr;
+        createCharaRow.template = ele_row;
     }
         
     var ele_row = createCharaRow.template.cloneNode(true);
@@ -99,7 +108,7 @@ function createCharaRow(portrait_path, name, hp, att, def, speed, skill, abiliti
     // Flatten abilities
     var ele_br = document.createElement('br');
     
-    ele_ability = ele_row.querySelector('.ability');
+    ele_ability = ele_row.querySelector('.abilities');
     for (var key in abilities) {
         var ele_div = document.createElement('div');
         var ele_idiv = document.createElement('div');
@@ -147,7 +156,7 @@ function createCharaRow(portrait_path, name, hp, att, def, speed, skill, abiliti
 
 function appendChara(portrait_path, name, hp, att, def, speed, skill, abilities) {
     var row = createCharaRow(portrait_path, name, hp, att, def, speed, skill, abilities);
-    document.querySelector('#chara').appendChild(row);
+    document.querySelector('#chara-zone').appendChild(row);
     
     return row;
 }

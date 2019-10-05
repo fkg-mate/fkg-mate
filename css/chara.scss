@@ -1,0 +1,171 @@
+
+$top-bar-height: 50px;
+
+#chara-top-bar {
+    height: $top-bar-height;
+    background: #d2b985;
+}
+
+#chara-zone {
+    $padding-top: 10px;
+    $padding-bottom: 20px;
+
+    overflow-y: scroll;
+    padding: $padding-top 5px $padding-bottom 5px;
+    height: calc(100% - #{$padding-top} - #{$padding-bottom} - #{$top-bar-height});
+    background: #f9f6f0;
+}
+
+/*-------------------------*/
+ #chara-zone > div {
+    $name-width: 400px;
+    $name-height: 30px;
+
+    $state-cat-width: 90px;
+    $state-width: 210px;
+    $state-height: 33px;
+
+    $portrait-right: 10px;
+    $portrait-width: 150px;
+    $portrait-height: $state-height * 4;
+
+    $skill-left: 10px;
+
+    $plate-width: $portrait-width + $portrait-right + $state-width;
+    $plate-margin: 30px;
+
+
+    padding: 0 25px;
+    user-select: text;
+
+    &:not(:first-child) {
+        padding-top: 50px;
+        background: url(../images/divider3.png) center 5px no-repeat;
+    }
+
+    &::after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+
+    div.name { 
+        margin-bottom: 10px;
+        padding: 1px 5px;
+        width: $name-width;
+        height: $name-height;
+
+        font-weight: bold;
+        line-height: $name-height;
+        
+        border: solid 2px #9c8a7f;
+        border-radius: 5px;
+        
+        background: url(../images/texture_paper.jpg);
+    }
+
+    div.plate {
+        float: left;
+        width: $plate-width;
+        
+        div.portrait { 
+            float: left;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-right: $portrait-right;
+            width: $portrait-width; 
+            height: $portrait-height;
+
+            img {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        div.state, div.state::before {
+            display: inline-block;
+            width: $state-width;
+            height: $state-height;
+            line-height: $state-height;
+        }
+
+        div.state::before {
+            width: $state-cat-width;
+        }
+
+        div.hp::before {     content: "HP:"; }
+        div.atk::before {    content: "攻撃力:"; }
+        div.def::before {    content: "防御力:"; }
+        div.spd::before {    content: "移動力:"; }
+
+        div.skill {
+            $margin-side: 15px;
+            margin: 13px $margin-side 10px #{$skill-left + $margin-side};
+            width: $plate-width - $margin-side * 2;
+
+            background: linear-gradient(135deg, #4b413b 0%, #4c423d 100%);
+            box-shadow: 
+                0 0 0 1px rgb(124, 119, 107),
+                0 0 0 2px rgb(179, 175, 147),
+                0 0 0 3px rgb(149, 142,  93),
+                0 0 0 4px rgb(116, 106,  74),
+                0 0 0 5px rgb(182, 161, 115);
+            
+            font-family: 'M PLUS 1c Rounded';
+
+            div.skill-name { 
+                margin: 0;
+                padding: 3px 5px;
+                background: linear-gradient(135deg, #f3dab4 0%, #f3dab4 100%);
+                color: #503c1b;
+            }
+
+            div.skill-rate::before { content: "発動率: "; }
+            div.skill-rate { 
+                padding: 5px 10px;
+                color: #f7cfab;
+                font-size: 12pt;
+                text-align: right;
+            }
+
+            div.skill-text { 
+                padding: 8px 5px;
+                color: #fefaee;
+                font-size: 14pt;
+                line-height: 20px;
+            }
+        }
+    }
+
+    div.abilities { 
+        margin-left: $plate-width + $plate-margin;
+
+        div.ability { 
+            margin: 0px;
+            display: flex;
+            align-items: center;
+            padding: 4px 5px 4px 50px;
+            min-height: 50px;
+            background: 5px center no-repeat;
+        }
+
+        div.ability-inner { 
+            display: flex;
+            align-items: center;
+        }
+
+        span.note { 
+            display: inline-block;
+            color: #934e10;
+            font-size: 14pt;
+            font-family: 'M PLUS 1c Rounded';
+        }
+
+        div:not(:last-child) { 
+            border-bottom: solid 2px #8a7e25;
+        }
+    }
+}

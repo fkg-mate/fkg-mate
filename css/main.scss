@@ -1,0 +1,212 @@
+@import url('https://fonts.googleapis.com/css?family=M+PLUS+1p|M+PLUS+Rounded+1c:500&display=swap');
+@import url('./chara.css');
+
+html, body, #window { 
+    margin: 0;
+    padding: 0;
+    height: 100%;
+
+    user-select: none;
+}
+
+div {
+    margin: 0;
+    padding: 0;
+}
+
+#window {
+    background: {
+        color: #eee;
+        image: url('../images/bg.jpg');
+        repeat: no-repeat;
+        position: center;
+        size: 100% auto;
+    }
+
+    font: {
+        size: 16pt;
+        family: 'M PLUS 1p';
+    }
+}
+
+#container {
+    margin: auto;
+	max-width: 1530px;
+	min-width: 1250px;
+    height: 100%;
+}
+
+.page {
+    width: 100%;
+    height: 100%;
+}
+
+
+/*-------------------------*/
+
+.push-button, .button {
+    display: flex;
+    margin: 12px;
+    width: 150px;
+    height: 40px;
+    
+    justify-content: space-around;
+    align-items: center;
+    
+    border-radius: 2px;
+    background: linear-gradient(to bottom, #bdbcc6 0%, #78777f 50%, #57565e 51%, #56555e 71%, #918d9c 100%);
+    box-shadow: 
+        0 0 0 1px rgb(126,  85,  69),
+        0 0 0 2px rgb( 44,  36,  25),
+        0 0 0 3px rgb( 80,  81,  71),
+        0 0 0 4px rgb(217, 218, 202),
+        0 0 0 5px rgb(214, 120,  96),
+        0 0 0 6px rgb(177, 168, 143);
+    
+    color: #fefefa;
+    font-weight: bold;
+    text-shadow: 2px 1px #000;
+    
+    cursor: pointer;
+}
+
+.push-button.red, .button.red {
+    background: linear-gradient(to bottom, #f69784 0%, #b85746 50%, #3f160d 51%, #3e160d 71%, #903321 100%);
+}
+
+.push-button.light-red, .button.light-red {
+    background: linear-gradient(to bottom, #fbbba7 0%, #e25a5a 50%, #8f232f 51%, #701b20 71%, #872120 100%);
+}
+
+.push-button.blue, .button.blue {
+    background: linear-gradient(to bottom, #8ec1fe 0%, #4a7bbb 50%, #153162 51%, #122b56 71%, #2d5898 100%);
+}
+
+.push-button.grey, .button.grey {
+    background: linear-gradient(to bottom, #bdbcc6 0%, #78777f 50%, #57565e 51%, #56555e 71%, #918d9c 100%);
+}
+
+.push-button:hover, .button:hover {
+    filter: brightness(1.2);
+}
+
+.push-button:active {
+    filter: brightness(1.2);
+    transform: translate(0, 2px);
+}
+
+
+/*-------------------------*/
+
+#cover {
+    position: fixed;
+    left: 0;
+    top: 0;
+    
+    width: 100%;
+    height: 100%;
+    background: #000;
+    user-select: none;
+    opacity: 0.6;
+}
+
+#filter-box {
+    --w:    1300px;
+    --htm:  30px;
+    --hbm:  50px;
+    
+    position: fixed;
+    left: calc((100% - var(--w)) / 2);
+    top: var(--htm);
+    
+    width: var(--w);
+    height: calc(100% - var(--htm) - var(--hbm));
+    
+    border-radius: 1px;
+    background: linear-gradient(135deg, #8f785d 0%, #907a61 40%, #9c8a7f 60%, #9c8c7f 100%);
+    box-shadow: 
+        0 0 0  1px rgb(209, 183, 134),
+        0 0 0  2px rgb(178, 155, 114),
+        0 0 0  3px rgb( 32,  31,  15),
+        0 0 0  4px rgb( 85,  83,  51),
+        0 0 0  5px rgb(116, 111,  79),
+        0 0 0  6px rgb( 85,  83,  51),
+        0 0 0  8px rgb(  3,   3,   5),
+        0 0 0  9px rgb(101,  98,  69),
+        0 0 0 10px rgb(138, 132,  95),
+        0 0 0 11px rgb(101,  98,  69),
+        0 0 0 12px rgb( 95,  91,  59),
+        0 0 0 13px rgb(148, 149, 125),
+        0 0 0 14px rgb( 49,  48,  40),
+        0 0 0 15px rgb( 47,  48,  40);
+}
+
+#filter-box-body {
+    --wm:       30px;
+    --htm:      30px;
+    --foot-h:   100px;
+    
+    display: flex;
+    margin: var(--htm) var(--wm) 0 var(--wm);
+    width: calc(100% - var(--wm)*2);
+    height: calc(100% - var(--htm) - var(--foot-h));
+    
+    justify-content: center;
+    align-items: center;
+    
+    background: #e9e6d0;
+    box-shadow: 0 0 1px 1px rgb(75, 56, 24);
+}
+
+#filter-box-body div.head {
+    display: inline-block;    
+}
+
+#filter-box-body .button-group {
+    display: inline-flex;
+    margin: 0;
+    height: 40px;
+    
+    
+    border-radius: 2px;
+    box-shadow: 
+        0 0 0 1px rgb( 83,  81,  82),
+        0 0 0 2px rgb( 40,  42,  35),
+        0 0 0 3px rgb( 83,  81,  82);
+}
+
+
+#filter-box-body label.button {
+    display: inline-flex;
+    margin: 0;
+    width: 120px;
+    height: 40px;
+    
+    border-radius: 0;
+    box-shadow: 0 0 0 0;
+}
+
+#filter-box-body label.button:first-child {    border-radius: 2px 0 0 2px; }
+#filter-box-body label.button:last-child {     border-radius: 0 2px 2px 0; }
+#filter-box-body label.button:not(:last-child) {    border-right: solid 1px #777; }
+
+#filter-box-foot {
+    --foot-h:   100px;
+    
+    display: flex;
+    height: var(--foot-h);
+    
+    justify-content: center;
+    align-items: center;
+}
+
+#filter-box-foot .push-button {
+    margin: 12px 35px;
+}
+
+#filter-box-foot .push-button.confirm {
+    --letter-space: 30px;
+    letter-spacing: var(--letter-space);
+    text-indent: var(--letter-space);
+}
+
