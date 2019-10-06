@@ -1,0 +1,112 @@
+.push-button, .button {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 5px;
+  min-width: 150px;
+  height: 40px;
+  border-radius: 2px;
+  background: -webkit-gradient(linear, left top, left bottom, from(#bdbcc6), color-stop(50%, #78777f), color-stop(51%, #57565e), color-stop(71%, #56555e), to(#918d9c));
+  background: linear-gradient(to bottom, #bdbcc6 0%, #78777f 50%, #57565e 51%, #56555e 71%, #918d9c 100%);
+  -webkit-box-shadow: 0 0 0 1px #7e5545, 0 0 0 2px #2c2419, 0 0 0 3px #505147, 0 0 0 4px #d9daca, 0 0 0 5px #b1a88f;
+          box-shadow: 0 0 0 1px #7e5545, 0 0 0 2px #2c2419, 0 0 0 3px #505147, 0 0 0 4px #d9daca, 0 0 0 5px #b1a88f;
+  color: #fefefa;
+  font-size: 16pt;
+  font-weight: bold;
+  text-shadow: 2px 1px #000;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.push-button:hover, .button:hover {
+  -webkit-filter: brightness(1.2);
+          filter: brightness(1.2);
+}
+
+.push-button.push-button:active, .button.push-button:active {
+  -webkit-filter: brightness(1.2);
+          filter: brightness(1.2);
+  -webkit-transform: translate(0, 2px);
+          transform: translate(0, 2px);
+}
+
+.push-button.small, .button.small {
+  min-width: 120px;
+  height: 32px;
+  font-size: 12.8pt;
+}
+
+.push-button.red, .button.red {
+  background: -webkit-gradient(linear, left top, left bottom, from(#f69784), color-stop(50%, #b85746), color-stop(51%, #3f160d), color-stop(71%, #3e160d), to(#903321));
+  background: linear-gradient(to bottom, #f69784 0%, #b85746 50%, #3f160d 51%, #3e160d 71%, #903321 100%);
+}
+
+.push-button.light-red, .button.light-red {
+  background: -webkit-gradient(linear, left top, left bottom, from(#fbbba7), color-stop(50%, #e25a5a), color-stop(51%, #8f232f), color-stop(71%, #701b20), to(#872120));
+  background: linear-gradient(to bottom, #fbbba7 0%, #e25a5a 50%, #8f232f 51%, #701b20 71%, #872120 100%);
+}
+
+.push-button.blue, .button.blue {
+  background: -webkit-gradient(linear, left top, left bottom, from(#8ec1fe), color-stop(50%, #4a7bbb), color-stop(51%, #153162), color-stop(71%, #122b56), to(#2d5898));
+  background: linear-gradient(to bottom, #8ec1fe 0%, #4a7bbb 50%, #153162 51%, #122b56 71%, #2d5898 100%);
+}
+
+.push-button.brown, .button.brown {
+  background: -webkit-gradient(linear, left top, left bottom, from(#cd9d5e), color-stop(50%, #976222), color-stop(51%, #351e01), color-stop(71%, #3f2301), to(#633903));
+  background: linear-gradient(to bottom, #cd9d5e 0%, #976222 50%, #351e01 51%, #3f2301 71%, #633903 100%);
+}
+
+.push-button.grey, .button.grey {
+  background: -webkit-gradient(linear, left top, left bottom, from(#bdbcc6), color-stop(50%, #78777f), color-stop(51%, #57565e), color-stop(71%, #56555e), to(#918d9c));
+  background: linear-gradient(to bottom, #bdbcc6 0%, #78777f 50%, #57565e 51%, #56555e 71%, #918d9c 100%);
+}
+
+#cover {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  opacity: 0.6;
+  display: none;
+}
+
+#cover.show {
+  display: block;
+}
+
+#cover.hide {
+  display: none;
+}
+
+.popup {
+  position: fixed;
+  left: calc((100% - 1300px) / 2);
+  top: 30px;
+  width: 1300px;
+  height: calc(100% - 80px);
+  border-radius: 1px;
+  background: linear-gradient(135deg, #8f785d 0%, #907a61 40%, #9c8a7f 60%, #9c8c7f 100%);
+  -webkit-box-shadow: 0 0 0 1px #d1b786, 0 0 0 2px #b29b72, 0 0 0 3px #201f0f, 0 0 0 4px #555333, 0 0 0 5px #746f4f, 0 0 0 6px #555333, 0 0 0 8px #030305, 0 0 0 9px #656245, 0 0 0 10px #8a845f, 0 0 0 11px #656245, 0 0 0 12px #5f5b3b, 0 0 0 13px #94957d, 0 0 0 14px #313028, 0 0 0 15px #2f3028;
+          box-shadow: 0 0 0 1px #d1b786, 0 0 0 2px #b29b72, 0 0 0 3px #201f0f, 0 0 0 4px #555333, 0 0 0 5px #746f4f, 0 0 0 6px #555333, 0 0 0 8px #030305, 0 0 0 9px #656245, 0 0 0 10px #8a845f, 0 0 0 11px #656245, 0 0 0 12px #5f5b3b, 0 0 0 13px #94957d, 0 0 0 14px #313028, 0 0 0 15px #2f3028;
+  display: none;
+}
+
+.popup.show {
+  display: block;
+}
+
+.popup.hide {
+  display: none;
+}
+/*# sourceMappingURL=ui.css.map */
