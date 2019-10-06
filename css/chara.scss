@@ -1,11 +1,13 @@
 $top-bar-height: 50px;
 
 #chara-top-bar {
+    $border-bottom-size: 1px;
     display: flex;
     align-items: center;
 
-    height: $top-bar-height;
+    height: $top-bar-height - $border-bottom-size;
     background: #d2b985;
+    border-bottom: solid $border-bottom-size #503c1b;
 }
 
 #chara-zone {
