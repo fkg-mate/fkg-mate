@@ -237,10 +237,18 @@ $top-bar-height: 50px;
                     padding: 0 15px;
                     min-width: $button-min-width;
                     height: $button-height;
-                    font-size: 14pt;
                     
                     border-radius: 0;
                     box-shadow: 0 0 0 0;
+
+                    font-size: 14pt;
+                    text-shadow: 
+                        2px 1px 0 #000,
+                        0 0 15px #fff;
+
+                    &:hover {
+                        text-shadow: 2px 1px 0 #000;
+                    }
 
                     &:first-child {    border-radius: 2px 0 0 2px; }
                     &:last-child {     border-radius: 0 2px 2px 0; }

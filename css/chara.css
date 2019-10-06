@@ -236,10 +236,15 @@
   padding: 0 15px;
   min-width: 70px;
   height: 35px;
-  font-size: 14pt;
   border-radius: 0;
   -webkit-box-shadow: 0 0 0 0;
           box-shadow: 0 0 0 0;
+  font-size: 14pt;
+  text-shadow: 2px 1px 0 #000, 0 0 15px #fff;
+}
+
+#filter-popup .body .cate .button-group .button:hover {
+  text-shadow: 2px 1px 0 #000;
 }
 
 #filter-popup .body .cate .button-group .button:first-child {

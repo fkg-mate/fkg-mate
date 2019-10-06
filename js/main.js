@@ -1,3 +1,16 @@
+// remove specified element in Array
+function removeArrayElement(array, element) {
+    var index = array.indexOf(element);
+
+    // remove element if found
+    if (index > -1) {
+        array.splice(index, 1);
+    }
+
+    return index;
+}
+
+/* ---------- */
 class FilterCate {
     constructor(name, type, btns) {
         this.name = name;
@@ -9,32 +22,95 @@ class FilterCate {
 
         // selector
         this.btns = {};
-        this.selected = null;
+        this.reset_btn = null;
+        this.selected = [];
 
         // construct
         this.node = this.initNode();
         this.initType();
         this.initButtons(btns);
-        console.log(this.btns);
-        return this.node;
+
+        return this;
     }
-    activateButton(btn) {
+    /****** Reset Filter ******/
+    resetFilter() {
+        var selected_snapshot = this.selected.slice(0);
+
+        // toggle off all buttons
+        for (var key in selected_snapshot) {
+            if (selected_snapshot[key]) {
+                this.toggleOffButton(selected_snapshot[key]);
+            }
+        }
+
+        // toggle on reset button if needed
+        if (this.type.reset) {
+            this.toggleOnButton(this.reset_btn);
+        }
+    }
+    /****** Toggle Button ******/
+    toggleOnButton(btn) {
         btn.node.classList.add('light-red');
+
+        if (!this.selected.includes(btn)) {
+            this.selected.push(btn);
+        }
     }
+    toggleOffButton(btn) {
+        btn.node.classList.remove('light-red');
+
+        if (this.selected.includes(btn)) {
+            removeArrayElement(this.selected, (btn));
+        }
+    }
+    toggleButton(btn) {
+        /* toggle on / off */
+        if (this.selected.includes(btn)) {
+            // toggle off
+            this.toggleOffButton(btn);
+        } else {
+            // toggle on
+            this.toggleOnButton(btn);
+
+            // reset filter if reset is on
+            if (btn == this.reset_btn) {
+                this.resetFilter();
+            }
+        }
+
+        /* check whether reset need to be toggled */
+        if (this.type.reset) {
+            if (this.selected.length > 1 && this.selected.includes(this.reset_btn)) {
+                // toggle off reset if other button is on
+                this.toggleOffButton(this.reset_btn);
+            } else if (this.selected.length == 0) {
+                // toggle on reset if all other buttons are off
+                this.toggleOnButton(this.reset_btn);
+            }
+        }
+    }
+    /****** Append Button ******/
     appendButton(name, fp_click) {
         var ele_btn = document.createElement('div');
+        var obj_cate = this;
+        var obj_btn = {
+            name: name,
+            node: ele_btn,
+            fp_click: fp_click
+        };
+
         ele_btn.className = 'button';
         ele_btn.textContent = name;
-        ele_btn.addEventListener('click', fp_click);
+        ele_btn.addEventListener('click', function() {
+            obj_cate.toggleButton(obj_btn);
+        });
 
         // append to this
         this.node.querySelector('.button-group').appendChild(ele_btn);
-        this.btns[name] = {
-            fp_click: fp_click,
-            node: ele_btn
-        };
-        return this.btns[name];
+        this.btns[name] = obj_btn;
+        return obj_btn;
     }
+    /****** Initialization ******/
     initNode() {
         if (typeof this.initNode.template == 'undefined') {
             var ele_cate = document.createElement('div');
@@ -60,7 +136,8 @@ class FilterCate {
     initType() {
         if (this.type.reset) {
             var btn = this.appendButton('全て');
-            this.activateButton(btn);
+            this.reset_btn = btn;
+            this.toggleOnButton(btn);
         }
         else {
             console.error('Unknown filter cate type: ' + this.type);
@@ -75,11 +152,8 @@ class FilterCate {
     }
 }
 
-
-
-
-
 var PageChara = {
+    /******* Chareters *******/
     createCharaRow: function(portrait_path, name, hp, att, def, speed, skill, abilities) {
         var _PORTRAIT_PATH = './images/portrait/';
         function formPlate() {
@@ -262,40 +336,51 @@ var PageChara = {
                 chara.abilities[STAGE]);
         }
     },
+    /****** Filter ******/
+    filterCates: [],
     appendFilterCate: function(name, type, btns) {
         var filter_body = document.querySelector('#filter-popup .body');
-        var cate_node = new FilterCate(name, type, btns);
+        var obj_cate = new FilterCate(name, type, btns);
 
-        filter_body.appendChild(cate_node);
+        filter_body.appendChild(obj_cate.node);
+        this.filterCates.push(obj_cate);
     },
     loadFilter: function() {
-        this.appendFilterCate('レアリティ', 'm-sel reset', [{
-            name: '6★',
-            fp_click: function() { }
-        }, {
-            name: '6★ (通常)',
-            fp_click: function() { }
-        }, {
-            name: '6★ (昇華)',
-            fp_click: function() { }
-        }, {
-            name: '5★',
-            fp_click: function() { }
-        }]);
+        this.appendFilterCate('レアリティ', 'm-sel reset', [
+            {name: '6★'},
+            {name: '6★ (通常)'},
+            {name: '6★ (昇華)'},
+            {name: '5★'}
+        ]);
 
-        this.appendFilterCate('属性', 'm-sel reset', [{
-            name: '斬',
-            fp_click: function() { }
-        }, {
-            name: '打',
-            fp_click: function() { }
-        }, {
-            name: '突',
-            fp_click: function() { }
-        }, {
-            name: '魔',
-            fp_click: function() { }
-        }]);
+        this.appendFilterCate('属性', 'm-sel reset', [
+            {name: '斬'},
+            {name: '打'},
+            {name: '突'},
+            {name: '魔'},
+        ]);
+
+        // install listener for top-bar
+        document.querySelector('#chara-top-bar .filter').addEventListener('click', function() {
+            var popup = document.querySelector('#filter-popup');
+
+            UI.showCover();
+            popup.classList.add('show');
+        });
+
+        document.querySelector('#filter-popup .foot .confirm').addEventListener('click', function() {
+            var popup = document.querySelector('#filter-popup');
+
+            UI.hideCover();
+            popup.classList.remove('show');
+        });
+
+        document.querySelector('#filter-popup .foot .reset').addEventListener('click', function() {
+            for (var key in PageChara.filterCates) {
+                PageChara.filterCates[key].resetFilter();
+            }
+        });
+
     },
 }
 
@@ -306,21 +391,6 @@ window.addEventListener("load", function() {
 
     // construct filter
     PageChara.loadFilter();
-
-    // install listener for top-bar
-    document.querySelector('#chara-top-bar .filter').addEventListener('click', function() {
-        var popup = document.querySelector('#filter-popup');
-
-        UI.showCover();
-        popup.classList.add('show');
-    });
-
-    document.querySelector('#filter-popup .foot .confirm').addEventListener('click', function() {
-        var popup = document.querySelector('#filter-popup');
-
-        UI.hideCover();
-        popup.classList.remove('show');
-    });
 
     // debug
     document.querySelector('#chara-top-bar .filter').click();
