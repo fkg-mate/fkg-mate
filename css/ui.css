@@ -95,6 +95,7 @@
   top: 30px;
   width: 1300px;
   height: calc(100% - 80px);
+  min-height: 300px;
   border-radius: 1px;
   background: linear-gradient(135deg, #8f785d 0%, #907a61 40%, #9c8a7f 60%, #9c8c7f 100%);
   -webkit-box-shadow: 0 0 0 1px #d1b786, 0 0 0 2px #b29b72, 0 0 0 3px #201f0f, 0 0 0 4px #555333, 0 0 0 5px #746f4f, 0 0 0 6px #555333, 0 0 0 8px #030305, 0 0 0 9px #656245, 0 0 0 10px #8a845f, 0 0 0 11px #656245, 0 0 0 12px #5f5b3b, 0 0 0 13px #94957d, 0 0 0 14px #313028, 0 0 0 15px #2f3028;

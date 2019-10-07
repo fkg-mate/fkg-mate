@@ -84,6 +84,7 @@
     
     width: $width;
     height: calc(100% - #{$margin-top + $margin-bottom});
+    min-height: 300px;
     
     border-radius: 1px;
     background: linear-gradient(135deg, #8f785d 0%, #907a61 40%, #9c8a7f 60%, #9c8c7f 100%);

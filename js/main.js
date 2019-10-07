@@ -11,104 +11,107 @@ function removeArrayElement(array, element) {
 }
 
 /* ---------- */
-class FilterCate {
-    constructor(name, type, btns) {
+var _PORTRAIT_PATH = './images/portrait/';
+
+class FilterRuleset {
+    constructor(name, type, rules) {
         this.name = name;
 
         // type
         this.type = {};
         this.type.m_sel = type.includes('m-sel');
         this.type.reset = type.includes('reset');
+        this.type.and   = type.includes('and');
 
-        // selector
-        this.btns = {};
-        this.reset_btn = null;
-        this.selected = [];
+        // rules
+        this.rules = {};
+        this.rule_clear = null;
+        this.activated_rules = [];
 
         // construct
         this.node = this.initNode();
         this.initType();
-        this.initButtons(btns);
+        this.initRules(rules);
 
         return this;
     }
     /****** Reset Filter ******/
     resetFilter() {
-        var selected_snapshot = this.selected.slice(0);
+        var activated_rules_snapshot = this.activated_rules.slice(0);
 
         // toggle off all buttons
-        for (var key in selected_snapshot) {
-            if (selected_snapshot[key]) {
-                this.toggleOffButton(selected_snapshot[key]);
+        for (var key in activated_rules_snapshot) {
+            if (activated_rules_snapshot[key]) {
+                this.toggleOffRule(activated_rules_snapshot[key]);
             }
         }
 
         // toggle on reset button if needed
         if (this.type.reset) {
-            this.toggleOnButton(this.reset_btn);
+            this.toggleOnRule(this.rule_clear);
         }
     }
-    /****** Toggle Button ******/
-    toggleOnButton(btn) {
-        btn.node.classList.add('light-red');
+    /****** Toggle Rule ******/
+    toggleOnRule(rule) {
+        rule.node.classList.add('light-red');
 
-        if (!this.selected.includes(btn)) {
-            this.selected.push(btn);
+        if (!this.activated_rules.includes(rule)) {
+            this.activated_rules.push(rule);
         }
     }
-    toggleOffButton(btn) {
-        btn.node.classList.remove('light-red');
+    toggleOffRule(rule) {
+        rule.node.classList.remove('light-red');
 
-        if (this.selected.includes(btn)) {
-            removeArrayElement(this.selected, (btn));
+        if (this.activated_rules.includes(rule)) {
+            removeArrayElement(this.activated_rules, (rule));
         }
     }
-    toggleButton(btn) {
+    toggleRule(rule) {
         /* toggle on / off */
-        if (this.selected.includes(btn)) {
+        if (this.activated_rules.includes(rule)) {
             // toggle off
-            this.toggleOffButton(btn);
+            this.toggleOffRule(rule);
         } else {
             // toggle on
-            this.toggleOnButton(btn);
+            this.toggleOnRule(rule);
 
             // reset filter if reset is on
-            if (btn == this.reset_btn) {
+            if (rule == this.rule_clear) {
                 this.resetFilter();
             }
         }
 
         /* check whether reset need to be toggled */
         if (this.type.reset) {
-            if (this.selected.length > 1 && this.selected.includes(this.reset_btn)) {
+            if (this.activated_rules.length > 1 && this.activated_rules.includes(this.rule_clear)) {
                 // toggle off reset if other button is on
-                this.toggleOffButton(this.reset_btn);
-            } else if (this.selected.length == 0) {
+                this.toggleOffRule(this.rule_clear);
+            } else if (this.activated_rules.length == 0) {
                 // toggle on reset if all other buttons are off
-                this.toggleOnButton(this.reset_btn);
+                this.toggleOnRule(this.rule_clear);
             }
         }
     }
-    /****** Append Button ******/
-    appendButton(name, fp_click) {
-        var ele_btn = document.createElement('div');
+    /****** Append Rule ******/
+    appendRule(name, fp_filter) {
+        var ele_rule = document.createElement('div');
         var obj_cate = this;
-        var obj_btn = {
+        var obj_rule = {
             name: name,
-            node: ele_btn,
-            fp_click: fp_click
+            node: ele_rule,
+            fp_filter: fp_filter
         };
 
-        ele_btn.className = 'button';
-        ele_btn.textContent = name;
-        ele_btn.addEventListener('click', function() {
-            obj_cate.toggleButton(obj_btn);
+        ele_rule.className = 'button';
+        ele_rule.textContent = name;
+        ele_rule.addEventListener('click', function() {
+            obj_cate.toggleRule(obj_rule);
         });
 
         // append to this
-        this.node.querySelector('.button-group').appendChild(ele_btn);
-        this.btns[name] = obj_btn;
-        return obj_btn;
+        this.node.querySelector('.button-group').appendChild(ele_rule);
+        this.rules[name] = obj_rule;
+        return obj_rule;
     }
     /****** Initialization ******/
     initNode() {
@@ -135,27 +138,107 @@ class FilterCate {
     }
     initType() {
         if (this.type.reset) {
-            var btn = this.appendButton('全て');
-            this.reset_btn = btn;
-            this.toggleOnButton(btn);
+            var rule = this.appendRule('全て', () => { return true; });
+            this.rule_clear = rule;
+            this.toggleOnRule(rule);
         }
         else {
             console.error('Unknown filter cate type: ' + this.type);
         }
     }
-    initButtons(btns) {
-        for (var key in btns) {
-            var btn = btns[key];
+    initRules(rules) {
+        for (var key in rules) {
+            var rule = rules[key];
 
-            this.appendButton(btn.name, btn.fp_click);
+            this.appendRule(rule.name, rule.fp_filter);
         }
     }
 }
 
-var PageChara = {
-    /******* Chareters *******/
-    createCharaRow: function(portrait_path, name, hp, att, def, speed, skill, abilities) {
-        var _PORTRAIT_PATH = './images/portrait/';
+class Charater{ 
+    constructor(data) {
+        this.no         = data.no;
+        this.name       = data.name;
+        this.names      = data.names;
+
+        this.rarity     = data.rarity;
+        this.attribute  = data.type;
+        this.country    = data.country;
+        this.like       = data.like;
+        this.skill      = data.skill;
+        this.spd        = data.speed;
+
+        this.max_stage  = 2; // XXX: should get from data
+        this.stats_list = [];
+        this.abilities_list = [];
+
+        for (var i = 0; i <= this.max_stage; i++) {
+            var stats = {};
+            stats.hp  = data.hps[i];
+            stats.atk = data.atks[i];
+            stats.def = data.defs[i];
+
+            this.stats_list.push(stats);
+            this.abilities_list.push(data.abilities[i]);
+        }
+
+        // construct
+        this.node = this.initNode(PageChara.stage);
+        
+        return this;
+    }
+    /****** Filter ******/
+    applyFilter(filters) {
+        var result = true;
+
+        for (var key in filters) {
+            var filter = filters[key];
+            var filter_result = false;
+
+            // XXX: WIP
+            if (filter.type.and) {
+                console.error("Filter type 'and' is not implemented yet")
+            }
+
+            // check every rule in filter
+            for (var key in filter.activated_rules) {
+                var rule = filter.activated_rules[key];
+                if (rule.fp_filter(this)) {
+                    filter_result = true;
+                    break;
+                }
+            }
+
+            if (!filter_result) {
+                result = false;
+                break;
+            }
+        }
+
+        // show / hide node depend on result
+        if (result) {
+            this.showNode();
+        } else {
+            this.hideNode();
+        }
+    }
+    /****** Styles ******/
+    showNode() {
+        this.node.classList.remove('hide');
+    }
+    hideNode() {
+        this.node.classList.add('hide');
+    }
+    /****** Portrait ******/
+    portrait_name(stage) {
+        var p_idx = (this.max_stage <= stage)? this.max_stage - 1: stage;
+        return this.no + '_' + p_idx;
+    }
+    portrait_path(stage) {
+        return _PORTRAIT_PATH + this.portrait_name(stage) + '.jpg';
+    }
+    /****** Initialization ******/
+    initNode(stage) {
         function formPlate() {
             var ele_plate = document.createElement('div');
             var ele_col = document.createElement('div');
@@ -209,18 +292,17 @@ var PageChara = {
 
             return ele_plate;
         }
-        if (typeof this.createCharaRow.template == 'undefined') {
+        if (typeof this.initNode.template == 'undefined') {
             var ele_row = document.createElement('div');
             var ele_col = document.createElement('div');
             var ele_div = document.createElement('div');
-            
+            var ele_plate = formPlate();
             
             // name
             ele_col.className = 'name';
             ele_row.appendChild(ele_col);
             
             // plate
-            ele_plate = formPlate();
             ele_row.appendChild(ele_plate);
             
             // ability
@@ -228,44 +310,51 @@ var PageChara = {
             ele_col.className = 'abilities';
             ele_row.appendChild(ele_col)
             
-            this.createCharaRow.template = ele_row;
+            this.initNode.template = ele_row;
         }
             
-        var ele_row = this.createCharaRow.template.cloneNode(true);
-        ele_row.querySelector('div.name').textContent   = name;
-        ele_row.querySelector('.hp').textContent        = hp;
-        ele_row.querySelector('.atk').textContent       = att;
-        ele_row.querySelector('.def').textContent       = def;
-        ele_row.querySelector('.spd').textContent       = speed;
+        var ele_row = this.initNode.template.cloneNode(true);
+
+        // surpress stage
+        var suppress = false;
+        if (stage > this.max_stage) {
+            stage = this.max_stage;
+            suppress = true;
+        }
         
-        ele_row.querySelector('.icon').src = _PORTRAIT_PATH + portrait_path + '.jpg';
+        // basic information
+        var name = (suppress)? this.name+' (Suppressed)': this.name;
+        ele_row.querySelector('div.name').textContent   = name;
+        ele_row.querySelector('.hp').textContent        = this.stats_list[stage].hp;
+        ele_row.querySelector('.atk').textContent       = this.stats_list[stage].atk;
+        ele_row.querySelector('.def').textContent       = this.stats_list[stage].def;
+        ele_row.querySelector('.spd').textContent       = this.spd;
+        
+        ele_row.querySelector('.icon').src = this.portrait_path(stage);
         
         // Construct skill zone
-        ele_row.querySelector('.skill-name').textContent = skill.name;
-        
-        skill_rates = skill.rates[0] + '% (' + skill.rates[1] + '%)'
+        var skill_rates = this.skill.rates[0] + '% (' + this.skill.rates[1] + '%)'
+        ele_row.querySelector('.skill-name').textContent = this.skill.name;
         ele_row.querySelector('.skill-rate').textContent = skill_rates;
         
-        
         // load ability from database
-        if (skill.type in SKILL_DB) {
-            skill_base = SKILL_DB[skill.type];
-            skill_text = vsprintf(skill_base.text, skill.vals);
+        var skill_text;
+        if (this.skill.type in SKILL_DB) {
+            var skill_base = SKILL_DB[this.skill.type];
+            skill_text = vsprintf(skill_base.text, this.skill.vals);
         } else {
-            console.error('Ability '+ability.type+' not found');
+            console.error('Ability '+this.ability.type+' not found');
             skill_text = 'Not found';
         }
         ele_row.querySelector('.skill-text').textContent = skill_text;
         
-        
         // Flatten abilities
-        var ele_br = document.createElement('br');
-        
-        ele_ability = ele_row.querySelector('.abilities');
-        for (var key in abilities) {
+        var ele_ability = ele_row.querySelector('.abilities');
+
+        for (var key in this.abilities_list[stage]) {
             var ele_div = document.createElement('div');
             var ele_idiv = document.createElement('div');
-            var ability = abilities[key];
+            var ability = this.abilities_list[stage][key];
             
             // load ability from database
             if (!ability.type in ABILITY_DB) {
@@ -273,17 +362,18 @@ var PageChara = {
                 continue;
             }
             
-            ability_base = ABILITY_DB[ability.type]
+            var ability_base = ABILITY_DB[ability.type]
             
             // apply ability text
-            text = vsprintf(ability_base.text, ability.vals);
-            node = document.createTextNode(text);
+            var text = vsprintf(ability_base.text, ability.vals);
+            var node = document.createTextNode(text);
             ele_idiv.appendChild(node);
             
             if ('note' in ability_base) {
                 var ele_note = document.createElement('span');
-                
-                note_vals = ability.vals;
+                var note_vals = ability.vals;
+                var note;
+
                 note_vals.splice(0, ability_base.arg_num);
                 note = vsprintf(ability_base.note, note_vals);
                 ele_note.className = 'note';
@@ -298,66 +388,85 @@ var PageChara = {
             ele_div.appendChild(ele_idiv);
             
             // apply ability icon
-            icon = ability_base.icon
+            var icon = ability_base.icon
             ele_div.className = 'ability';
             ele_div.style.backgroundImage = 'url(./images/icon/'+icon+'.jpg)';
             ele_ability.appendChild(ele_div);
         }
         
         return ele_row;
-    },
-    appendChara: function(portrait_path, name, hp, att, def, speed, skill, abilities) {
-        var row = this.createCharaRow(portrait_path, name, hp, att, def, speed, skill, abilities);
-        document.querySelector('#chara-zone').appendChild(row);
-        
-        return row;
-    },
+    }
+}
+
+var PageChara = {
+    /******* Chareters *******/
+    stage: 2,
+    charaters: [],
     loadChara: function(charas) {
-        var STAGE = 2;
-
+        var chara_zone = document.querySelector('#chara-zone');
         for (var key in charas) {
-            var chara = charas[key];
+            var chara_data = charas[key];
+            var obj_chara = new Charater(chara_data);
             
-            //console.log(chara);
-    
-            // construct portrait path
-            p_idx = (chara.portrait_num <= STAGE) ? chara.portrait_num - 1 : STAGE;
-            portrait_path = chara.no + '_' + p_idx;
+            chara_zone.appendChild(obj_chara.node);
+            this.charaters.push(obj_chara);
 
-            // append charater
-            this.appendChara(
-                portrait_path,
-                chara.name, 
-                chara.hps[STAGE], 
-                chara.atks[STAGE], 
-                chara.defs[STAGE], 
-                chara.speed,
-                chara.skill, 
-                chara.abilities[STAGE]);
+            // debug
+            //console.log(obj_chara);
         }
     },
     /****** Filter ******/
-    filterCates: [],
-    appendFilterCate: function(name, type, btns) {
-        var filter_body = document.querySelector('#filter-popup .body');
-        var obj_cate = new FilterCate(name, type, btns);
+    filterRulesets: [],
+    applyFilter: function() {
+        var filters = this.filterRulesets;
 
-        filter_body.appendChild(obj_cate.node);
-        this.filterCates.push(obj_cate);
+        // filter out charaters
+        this.charaters.forEach(function(charater) {
+            charater.applyFilter(filters);
+        });
+
+        // clear class for old first visiable charater
+        document.querySelectorAll('#chara-zone > div.first').forEach((chara_node) => {
+            chara_node.classList.remove('first');
+        });
+
+        // set calss for new first visiable charater
+        var first_visible = document.querySelector('#chara-zone > div:not(.hide)');
+        first_visible.classList.add('first');
+    },
+    appendRuleset: function(name, type, rules) {
+        var filter_body = document.querySelector('#filter-popup .body');
+        var obj_rulset = new FilterRuleset(name, type, rules);
+
+        filter_body.appendChild(obj_rulset.node);
+        this.filterRulesets.push(obj_rulset);
     },
     loadFilter: function() {
-        this.appendFilterCate('レアリティ', 'm-sel reset', [
-            {name: '6★'},
-            {name: '6★ (通常)'},
-            {name: '6★ (昇華)'},
-            {name: '5★'}
+        this.appendRuleset('レアリティ', 'm-sel reset', [
+            {fp_filter: (chara) => { return chara.rarity == 6; }, name: '6★'},
+            {fp_filter: (chara) => { return chara.rarity == 6; }, name: '6★ (通常)'},
+            //{fp_filter: (chara) => { return chara.rarity == 6; }, name: '6★ (昇華)'},
+            {fp_filter: (chara) => { return chara.rarity == 5; }, name: '5★'}
         ]);
 
-        this.appendFilterCate('属性', 'm-sel reset', [
-            {name: '斬'},
-            {name: '打'},
-            {name: '突'},
-            {name: '魔'},
+        this.appendRuleset('属性', 'm-sel reset', [
+            {fp_filter: (chara) => { return chara.attribute == '斬'; }, name: '斬'},
+            {fp_filter: (chara) => { return chara.attribute == '打'; }, name: '打'},
+            {fp_filter: (chara) => { return chara.attribute == '突'; }, name: '突'},
+            {fp_filter: (chara) => { return chara.attribute == '魔'; }, name: '魔'}
+            //{fp_filter: (chara) => { return chara.attribute == 'slash'; }, name: '斬'},
+            //{fp_filter: (chara) => { return chara.attribute == 'blunt'; }, name: '打'},
+            //{fp_filter: (chara) => { return chara.attribute == 'pierce'; }, name: '突'},
+            //{fp_filter: (chara) => { return chara.attribute == 'magic'; }, name: '魔'}
+        ]);
+
+        this.appendRuleset('スキル', 'm-sel reset', [
+            {fp_filter: (chara) => { return chara.skill.type == 'single'; },    name: '単体'},
+            {fp_filter: (chara) => { return chara.skill.type == 'vampire'; },   name: '吸収'},
+            {fp_filter: (chara) => { return chara.skill.type == 'tristrike'; }, name: '複数回'},
+            {fp_filter: (chara) => { return chara.skill.type == 'double'; },    name: '2体'},
+            {fp_filter: (chara) => { return chara.skill.type == 'smart'; },     name: '変則'},
+            {fp_filter: (chara) => { return chara.skill.type == 'all'; },       name: '全体'}
         ]);
 
         // install listener for top-bar
@@ -371,13 +480,15 @@ var PageChara = {
         document.querySelector('#filter-popup .foot .confirm').addEventListener('click', function() {
             var popup = document.querySelector('#filter-popup');
 
+            PageChara.applyFilter();
+
             UI.hideCover();
             popup.classList.remove('show');
         });
 
         document.querySelector('#filter-popup .foot .reset').addEventListener('click', function() {
-            for (var key in PageChara.filterCates) {
-                PageChara.filterCates[key].resetFilter();
+            for (var key in PageChara.filterRulesets) {
+                PageChara.filterRulesets[key].resetFilter();
             }
         });
 
@@ -393,5 +504,5 @@ window.addEventListener("load", function() {
     PageChara.loadFilter();
 
     // debug
-    document.querySelector('#chara-top-bar .filter').click();
+    //document.querySelector('#chara-top-bar .filter').click();
 });
