@@ -231,7 +231,7 @@ class Charater{
     }
     /****** Portrait ******/
     portrait_name(stage) {
-        var p_idx = (this.max_stage <= stage)? this.max_stage - 1: stage;
+        var p_idx = (this.max_stage <= stage)? this.max_stage: stage;
         return this.no + '_' + p_idx;
     }
     portrait_path(stage) {
