@@ -168,7 +168,8 @@ class Charater{
         this.skill      = data.skill;
         this.spd        = data.speed;
 
-        this.max_stage  = 2; // XXX: should get from data
+        this.portrait_num = data.portrait_num;
+        this.max_stage = 2; // XXX: should get from data
         this.stats_list = [];
         this.abilities_list = [];
 
@@ -231,7 +232,7 @@ class Charater{
     }
     /****** Portrait ******/
     portrait_name(stage) {
-        var p_idx = (this.max_stage <= stage)? this.max_stage: stage;
+        var p_idx = (this.portrait_num <= stage)? this.portrait_num - 1: stage;
         return this.no + '_' + p_idx;
     }
     portrait_path(stage) {
