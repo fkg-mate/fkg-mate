@@ -27,5 +27,5 @@ window.addEventListener("load", function() {
     CharaViewer.init();
 
     // debug
-    document.querySelector('#chara-top-bar .ability-filter').click();
+    //document.querySelector('#chara-top-bar .ability-filter').click();
 });
