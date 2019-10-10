@@ -1,6 +1,7 @@
 
 .push-button, .button {
-    $min-width: 150px;
+    $padding-side: 20px;
+    $min-width: 130px - $padding-side*2;
     $height: 40px;
     $font-size: 16pt;
 
@@ -9,6 +10,7 @@
     align-items: center;
     
     margin: 5px;
+    padding: 0 $padding-side;
     min-width: $min-width;
     height: $height;
     

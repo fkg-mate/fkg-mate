@@ -8,7 +8,8 @@
       -ms-flex-align: center;
           align-items: center;
   margin: 5px;
-  min-width: 150px;
+  padding: 0 20px;
+  min-width: 90px;
   height: 40px;
   border-radius: 2px;
   background: -webkit-gradient(linear, left top, left bottom, from(#bdbcc6), color-stop(50%, #78777f), color-stop(51%, #57565e), color-stop(71%, #56555e), to(#918d9c));
@@ -36,7 +37,7 @@
 }
 
 .push-button.small, .button.small {
-  min-width: 120px;
+  min-width: 72px;
   height: 32px;
   font-size: 12.8pt;
 }

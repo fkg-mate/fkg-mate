@@ -25,7 +25,7 @@ $top-bar-height: 50px;
     padding: 0 30px;
 
     .push-button {
-        margin: 0 20px;
+        margin: 0 10px;
     }
 }
 
@@ -190,7 +190,7 @@ $top-bar-height: 50px;
 
 /*-------------------------*/
 
-#filter-popup {
+#basic-filter, #ability-filter {
     $foot-height: 100px;
 
     .body {
@@ -215,11 +215,15 @@ $top-bar-height: 50px;
 
         .cate {
             margin-bottom: 25px;
+            display: flex;
+            align-items: center;
 
             .head {
                 display: inline-block;
-                width: 125px;
-                font-size: 16pt;
+                padding-right: 20px;
+                width: 130px;
+                font-size: 14pt;
+                text-align: right;
             }
 
             .button-group {
@@ -249,7 +253,7 @@ $top-bar-height: 50px;
                     font-size: 14pt;
                     text-shadow: 
                         2px 1px 0 #000,
-                        0 0 15px #fff;
+                        0 0 15px #ccc;
 
                     &:hover {
                         text-shadow: 2px 1px 0 #000;
@@ -277,6 +281,7 @@ $top-bar-height: 50px;
 
         .push-button.confirm {
             --letter-space: 30px;
+            padding: 0;
             letter-spacing: var(--letter-space);
             text-indent: var(--letter-space);
         }

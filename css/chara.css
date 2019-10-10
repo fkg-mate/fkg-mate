@@ -24,7 +24,7 @@
 }
 
 #chara-top-bar .push-button {
-  margin: 0 20px;
+  margin: 0 10px;
 }
 
 /*-------------------------*/
@@ -188,7 +188,7 @@
 }
 
 /*-------------------------*/
-#filter-popup .body {
+#basic-filter .body, #ability-filter .body {
   display: block;
   overflow-x: hidden;
   overflow-y: auto;
@@ -201,17 +201,25 @@
           box-shadow: 0 0 1px 1px #4b3818;
 }
 
-#filter-popup .body .cate {
+#basic-filter .body .cate, #ability-filter .body .cate {
   margin-bottom: 25px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
-#filter-popup .body .cate .head {
+#basic-filter .body .cate .head, #ability-filter .body .cate .head {
   display: inline-block;
-  width: 125px;
-  font-size: 16pt;
+  padding-right: 20px;
+  width: 130px;
+  font-size: 14pt;
+  text-align: right;
 }
 
-#filter-popup .body .cate .button-group {
+#basic-filter .body .cate .button-group, #ability-filter .body .cate .button-group {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
@@ -222,7 +230,7 @@
           box-shadow: 0 0 0 1px #535152, 0 0 0 2px #282a23, 0 0 0 3px #535152;
 }
 
-#filter-popup .body .cate .button-group .button {
+#basic-filter .body .cate .button-group .button, #ability-filter .body .cate .button-group .button {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
   display: inline-flex;
@@ -234,26 +242,26 @@
   -webkit-box-shadow: 0 0 0 0;
           box-shadow: 0 0 0 0;
   font-size: 14pt;
-  text-shadow: 2px 1px 0 #000, 0 0 15px #fff;
+  text-shadow: 2px 1px 0 #000, 0 0 15px #ccc;
 }
 
-#filter-popup .body .cate .button-group .button:hover {
+#basic-filter .body .cate .button-group .button:hover, #ability-filter .body .cate .button-group .button:hover {
   text-shadow: 2px 1px 0 #000;
 }
 
-#filter-popup .body .cate .button-group .button:first-child {
+#basic-filter .body .cate .button-group .button:first-child, #ability-filter .body .cate .button-group .button:first-child {
   border-radius: 2px 0 0 2px;
 }
 
-#filter-popup .body .cate .button-group .button:last-child {
+#basic-filter .body .cate .button-group .button:last-child, #ability-filter .body .cate .button-group .button:last-child {
   border-radius: 0 2px 2px 0;
 }
 
-#filter-popup .body .cate .button-group .button:not(:last-child) {
+#basic-filter .body .cate .button-group .button:not(:last-child), #ability-filter .body .cate .button-group .button:not(:last-child) {
   border-right: solid 1px #777;
 }
 
-#filter-popup .foot {
+#basic-filter .foot, #ability-filter .foot {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -266,12 +274,13 @@
           align-items: center;
 }
 
-#filter-popup .foot .push-button {
+#basic-filter .foot .push-button, #ability-filter .foot .push-button {
   margin: 12px 35px;
 }
 
-#filter-popup .foot .push-button.confirm {
+#basic-filter .foot .push-button.confirm, #ability-filter .foot .push-button.confirm {
   --letter-space: 30px;
+  padding: 0;
   letter-spacing: var(--letter-space);
   text-indent: var(--letter-space);
 }

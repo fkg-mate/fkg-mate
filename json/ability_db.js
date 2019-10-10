@@ -1,40 +1,76 @@
 ABILITY_DB = {
     "sklrate_pt": {
-        "text": "戦闘中、パーティメンバーのスキル発動率が%.1f倍上昇",
+        "text": "戦闘中、パーティメンバーのスキル発動率が%f倍上昇",
         "arg_num": 1,
-        "icon": "icon13"
+        "icon": "icon13",
+        "powers": [{
+            "name": "sklrate",
+            "target": ["party"],
+            "duration": ["always"],
+            "args": [0]
+        }]
     },
     "sklrate_pt_by_affection": {
-        "text": "戦闘中、パーティメンバーのスキル発動率がそれぞれの好感度に応じて最大%.1f倍上昇",
+        "text": "戦闘中、パーティメンバーのスキル発動率がそれぞれの好感度に応じて最大%f倍上昇",
         "arg_num": 1,
-        "icon": "icon13"
+        "icon": "icon13",
+        "powers": [{
+            "name": "sklrate",
+            "target": ["party"],
+            "duration": ["always"],
+            "args": [0]
+        }]
     },
     "sklrate_pt_by_skllv": {
-        "text": "戦闘中、自身のスキルLv(1~5)に応じて、パーティメンバーのスキル発動率が上昇(%.1f~%.1f倍)",
+        "text": "戦闘中、自身のスキルLv(1~5)に応じて、パーティメンバーのスキル発動率が上昇(%f~%f倍)",
         "arg_num": 2,
-        "icon": "icon13"
+        "icon": "icon13",
+        "powers": [{
+            "name": "sklrate_by_skllv",
+            "target": ["party"],
+            "duration": ["always"],
+            "args": [0, 1]
+        }]
     },
     "sklrate_pt_t1": {
-        "text": "戦闘中、1ターン目のパーティメンバーのスキル発動率が%.1f倍上昇する",
+        "text": "戦闘中、1ターン目のパーティメンバーのスキル発動率が%f倍上昇する",
         "arg_num": 1,
         "icon": "icon14",
         "skip": [
             1
-        ]
+        ],
+        "powers": [{
+            "name": "sklrate",
+            "target": ["party"],
+            "duration": ["t1"],
+            "args": [0]
+        }]
     },
     "sklrate_self_t1": {
-        "text": "戦闘中、1ターン目の自身の戦闘スキル発動率が%.1f倍になる",
+        "text": "戦闘中、1ターン目の自身の戦闘スキル発動率が%f倍になる",
         "arg_num": 1,
-        "icon": "icon14"
+        "icon": "icon14",
+        "powers": [{
+            "name": "sklrate",
+            "target": ["self"],
+            "duration": ["t1"],
+            "args": [0]
+        }]
     },
     "sklrate_pt_by_hit": {
         "note": "※回避時も効果は発動する",
-        "text": "戦闘中、自身が攻撃を受けた次ターン時にパーティメンバーのスキル発動率が%.1f倍になる",
+        "text": "戦闘中、自身が攻撃を受けた次ターン時にパーティメンバーのスキル発動率が%f倍になる",
         "arg_num": 1,
         "icon": "icon13",
         "skip": [
             1
-        ]
+        ],
+        "powers": [{
+            "name": "sklrate_by_hit",
+            "target": ["party"],
+            "duration": ["always"],
+            "args": [0]
+        }]
     },
     "atk_pt": {
         "text": "戦闘中、パーティメンバーの攻撃力が%d%%上昇する",
