@@ -549,6 +549,11 @@ let CharaViewer = {
             { name: '2倍 (受け)', fp_filter: (chara) => { return POWER_FILTER.isSklrateHit(chara.powers_list[this.stage]) }},
             { name: '2倍 (自身)', fp_filter: (chara) => { return POWER_FILTER.isSklrateSelf(chara.powers_list[this.stage]) }},
         ]);
+        this.appendAbilityRuleset('反撃', 'm-sel cover', [
+            { name: 'あり', fp_filter: (chara) => { return POWER_FILTER.hasCounter(chara.powers_list[this.stage]) }, cover: true}, 
+            { name: '反撃だけ', fp_filter: (chara) => { return POWER_FILTER.isCounter(chara.powers_list[this.stage]) }},
+            { name: '超反撃だけ', fp_filter: (chara) => { return POWER_FILTER.isSuperCounter(chara.powers_list[this.stage]) }},
+        ]);
     },
     installEventListener: function() {
         // basic filter

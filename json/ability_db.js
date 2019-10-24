@@ -36,9 +36,6 @@ ABILITY_DB = {
         "text": "戦闘中、1ターン目のパーティメンバーのスキル発動率が%f倍上昇する",
         "arg_num": 1,
         "icon": "icon14",
-        "skip": [
-            1
-        ],
         "powers": [{
             "name": "sklrate",
             "target": ["party"],
@@ -62,9 +59,6 @@ ABILITY_DB = {
         "text": "戦闘中、自身が攻撃を受けた次ターン時にパーティメンバーのスキル発動率が%f倍になる",
         "arg_num": 1,
         "icon": "icon13",
-        "skip": [
-            1
-        ],
         "powers": [{
             "name": "sklrate_by_hit",
             "target": ["party"],
@@ -76,30 +70,50 @@ ABILITY_DB = {
         "text": "戦闘中、パーティメンバーの攻撃力が%d%%上昇する",
         "arg_num": 1,
         "icon": "icon1",
-        "skip": [
-            1
-        ]
+        "powers": [{
+            "name": "attack",
+            "target": ["party"],
+            "duration": ["always"],
+            "args": [0]
+        }]
     },
     "atk_pt_t1": {
         "text": "戦闘中、1ターン目のパーティメンバーの攻撃力が%d%%上昇",
         "arg_num": 1,
         "icon": "icon2",
-        "skip": [
-            0
-        ]
+        "powers": [{
+            "name": "attack",
+            "target": ["party"],
+            "duration": ["t1"],
+            "args": [0]
+        }]
     },
     "atk_pt_n_atk_self": {
         "text": "戦闘中、パーティメンバーの攻撃力が%d%%上昇し、さらに自身の攻撃力が%d%%上昇",
         "arg_num": 2,
         "icon": "icon1",
-        "skip": [
-            1
-        ]
+        "powers": [{
+            "name": "attack",
+            "target": ["party"],
+            "duration": ["always"],
+            "args": [0]
+        }, {        
+            "name": "attack",
+            "target": ["self"],
+            "duration": ["always"],
+            "args": [1]
+        }]
     },
     "atk_self": {
         "text": "戦闘中、自身の攻撃力が%d%%上昇",
         "arg_num": 1,
-        "icon": "icon1"
+        "icon": "icon1",
+        "powers": [{
+            "name": "attack",
+            "target": ["self"],
+            "duration": ["always"],
+            "args": [1]
+        }]
     },
     "atk_self_nc": {
         "text": "戦闘中、自身を含む%d人の攻撃力が%d%%上昇",
@@ -500,9 +514,13 @@ ABILITY_DB = {
         "text": "戦闘中、パーティメンバーの攻撃力が%d%%上昇し、戦闘中、パーティメンバーのスキル発動率がそれぞれの好感度に応じて最大%.1f倍上昇",
         "arg_num": 2,
         "icon": "icon1",
-        "skip": [
-            1
-        ]
+        // XXX: lack of atk
+        "powers": [{
+            "name": "sklrate",
+            "target": ["party"],
+            "duration": ["always"],
+            "args": [1]
+        }]
     },
     "atk_pt_n_2ndact_self": {
         "text": "戦闘中、パーティメンバーの攻撃力が%d%%上昇し、自身が敵に攻撃を与えた後、%d%%の確率で自身は再行動する",
@@ -534,7 +552,14 @@ ABILITY_DB = {
     "sklrate_pt_n_dmg_pt_boss": {
         "text": "戦闘中、パーティメンバーのスキル発動率が%.1f倍上昇し、ボスに対して与えるダメージが%d%%増加する",
         "arg_num": 2,
-        "icon": "icon13"
+        "icon": "icon13",
+        // XXX: lack of atk
+        "powers": [{
+            "name": "sklrate",
+            "target": ["party"],
+            "duration": ["always"],
+            "args": [1]
+        }]
     },
     "skldmg_self_n_dmg_self_boss": {
         "text": "戦闘中、自身のスキルダメージが%d%%上昇し、ボスに対して与えるダメージが%d%%増加する",
@@ -576,19 +601,24 @@ ABILITY_DB = {
         "text": "攻撃を受けた時、自身は%d%%の確率で防御力の%.1f倍を攻撃力に変換し反撃する",
         "arg_num": 2,
         "icon": "icon21",
-        "skip": [
-            0
-        ]
+        "powers": [{
+            "name": "counter",
+            "target": ["self"],
+            "duration": ["always"],
+            "args": [0, 1]
+        }]
     },
     "super_counter": {
         "note": "※超反撃は通常反撃の2倍のダメージ",
         "text": "攻撃を受けた時、自身は%d%%の確率で防御力の%.1f倍を攻撃力に変換し反撃、防御発動時の反撃は超反撃が発動する",
         "arg_num": 2,
         "icon": "icon21",
-        "skip": [
-            0,
-            3
-        ]
+        "powers": [{
+            "name": "super_counter",
+            "target": ["self"],
+            "duration": ["always"],
+            "args": [0, 1]
+        }]
     },
     "pursuit": {
         "text": "戦闘中、自身が攻撃を行った後、自身はパーティ総合力の%d%%を攻撃力に変換し追撃する",

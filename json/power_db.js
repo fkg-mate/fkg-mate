@@ -27,23 +27,27 @@ const POWER_BUILDER_MAP = {
     sklrate: POWER_BUILDER.buff,
     sklrate_by_skllv: POWER_BUILDER.buff,
     sklrate_by_hit: POWER_BUILDER.buff,
+    counter: POWER_BUILDER.buff,        // XXX: should be replaced by counter
+    super_counter: POWER_BUILDER.buff,  // XXX: should be replaced by counter
 };
 
 const POWER_TYPE_SET = {
     sklrate: ['sklrate', 'sklrate_by_skllv', 'sklrate_by_hit'],
+    counter: ['counter', 'super_counter'],
 };
 
 const POWER_FILTER = {
-    /****** Skill Rate ******/
-    hasSklrate: function(powers) {
-        const set = POWER_TYPE_SET.sklrate;
-
+    hasOneOf: function(powers, set) {
         for (let key in set) {
             if (set[key] in powers)
                 return true;
         }
 
         return false;
+    },
+    /****** Skill Rate ******/
+    hasSklrate: function(powers) {
+        return this.hasOneOf(powers, POWER_TYPE_SET.sklrate);
     },
     isSklrateFp: function(skl_powers, fp) {
         for (let key in skl_powers) {
@@ -81,4 +85,14 @@ const POWER_FILTER = {
     /****** Attack ******/
     /****** Skill damage ******/
     /****** Criticals ******/
+    /****** Counter ******/
+    hasCounter: function(powers) {
+        return this.hasOneOf(powers, POWER_TYPE_SET.counter);
+    },
+    isCounter: function(powers) {
+        return this.hasOneOf(powers, ['counter']);
+    },
+    isSuperCounter: function(powers) {
+        return this.hasOneOf(powers, ['super_counter']);
+    },
 };
