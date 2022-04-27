@@ -266,6 +266,8 @@ let CharaViewer = {
                 // traverse all powers
                 base.powers.forEach((power) => {
                     const builder = POWER_BUILDER_MAP[power.name];
+                    if (!builder) return;
+                    
                     let results = builder(power, ability);
                     
                     for (let key in results) {
